@@ -1,5 +1,6 @@
 package com.cauvong.softwarearchitecture.MVC.Controllers;
 
+import com.cauvong.softwarearchitecture.MVC.Interfaces.IMessageListener;
 import com.cauvong.softwarearchitecture.MVC.Models.MessageItemModel;
 import com.cauvong.softwarearchitecture.MVC.Models.MessagesModel;
 
@@ -10,22 +11,23 @@ import com.cauvong.softwarearchitecture.MVC.Models.MessagesModel;
 public class MessagesController
 {
     private MessagesModel _messages;
-    private MessageItemModel _messagesItem;
 
     public MessagesController()
     {
     }
 
-    public void onClicked()
+    public void onClicked(String content, String senderName)
     {
-        _messages.addMessages(_messagesItem);
+        //gui tin nhan len firebase
     }
 
-    public void setMessageItem(MessageItemModel messagesItem)
-    {
-        _messagesItem.setUserId(messagesItem.getUserId());
-        _messagesItem.setUserName(messagesItem.getUserName());
-        _messagesItem.setContent(messagesItem.getContent());
-        _messagesItem.setTimeStamp(messagesItem.getTimeStamp());
+    public void onMessageReceived(MessageItemModel message){
+        _messages.addMessage(message);
     }
+
+    public void setOnMessageChangeListener(IMessageListener listener)
+    {
+        _messages.setOnMessageChangeListener(listener);
+    }
+
 }

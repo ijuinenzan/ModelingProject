@@ -1,40 +1,40 @@
 package com.cauvong.softwarearchitecture.MVC.Models;
 
-import android.os.Message;
-
 /**
  * Created by Khang Le on 12/4/2017.
  */
 
 public class MessageItemModel
 {
-    private int _userId;
-    private String _userName;
+
+    private String _messageKey;
+    private String _senderName;
     private String _content;
     private String _timeStamp;
 
     public MessageItemModel()
     {    }
 
-    public MessageItemModel(int userId, String userName, String content, String timeStamp)
+    public MessageItemModel(String messageKey, String senderName, String content, String timeStamp)
     {
-        this._userId = userId;
-        this._userName = userName;
+        this._messageKey = messageKey;
+        this._senderName = senderName;
         this._content = content;
         this._timeStamp = timeStamp;
     }
 
-    public int getUserId()
-    {   return _userId;    }
+    //region GET-SET
+    public String getMessageKey()
+    {   return _messageKey;    }
 
-    public void setUserId(int userId)
-    {   this._userId = userId;  }
+    public void setMessageKey(String messageKey)
+    {   this._messageKey = messageKey;  }
 
-    public String getUserName()
-    {   return _userName;    }
+    public String getSenderName()
+    {   return _senderName;    }
 
-    public void setUserName(String userName)
-    {   this._userName = userName;  }
+    public void setSenderName(String senderName)
+    {   this._senderName = senderName;  }
 
     public String getContent()
     {   return _content;    }
@@ -47,4 +47,16 @@ public class MessageItemModel
 
     public void setTimeStamp(String timeStamp)
     {   this._timeStamp = timeStamp;   }
+    //endregion
+
+
+    public void onChanged(String messageKey, String senderName, String content, String timeStamp)
+    {
+        this.setMessageKey(messageKey);
+        this.setSenderName(senderName);
+        this.setContent(content);
+        this.setTimeStamp(timeStamp);
+    }
+
+
 }

@@ -17,5 +17,6 @@
     <string name="hint_typing">Type here</string>
     <string name="send_text">Send</string>
     <string name="text_waiting_for_auth">Authenticating, this may take 1 minute</string>
+    <string name="sender_s_name">Sender\'s Name</string>
 
 </resources>

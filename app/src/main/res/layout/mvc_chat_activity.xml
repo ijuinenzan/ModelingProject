@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MVC.Views.ChatActivity">
 
     <TextView
         android:id="@+id/text_header"
@@ -16,11 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <EditText
+            android:id="@+id/edt_sender_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sender_s_name"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/layout_input">
+            android:layout_above="@+id/layout_input"
+            android:layout_below="@id/edt_sender_name">
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
@@ -44,7 +52,8 @@
                 android:layout_width="@dimen/small_width"
                 android:layout_height="match_parent"
                 android:text="@string/send_text"
-                style="@style/regular_buttons"/>
+                style="@style/regular_buttons"
+                android:onClick="onSend"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
