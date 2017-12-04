@@ -1,7 +1,6 @@
 package com.cauvong.softwarearchitecture.managers;
 
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,35 +15,48 @@ import java.util.Map;
  */
 
 public class FirebaseManager implements ChildEventListener {
-    private volatile static FirebaseManager sFirebaseManager;
-    private DatabaseReference mMessageReference;
-    private FirebaseCallbacks mCallbacks;
+    private static FirebaseManager _firebaseManager;
+    private FirebaseDatabase _database;
+    private DatabaseReference _messageReference;
+    private FirebaseCallbacks _callbacks;
 
-    public static synchronized FirebaseManager getInstance(String roomName, FirebaseCallbacks callBacks) {
-        if(sFirebaseManager == null) {
-            synchronized (FirebaseManager.class) {
-                sFirebaseManager = new FirebaseManager(roomName,callBacks);
-            }
+    public static FirebaseManager getInstance() {
+        if(_firebaseManager == null)
+        {
+            _firebaseManager = new FirebaseManager();
         }
-        return sFirebaseManager;
+        return _firebaseManager;
     }
 
-    private FirebaseManager(String roomName, FirebaseCallbacks callBacks){
-        mMessageReference = FirebaseDatabase.getInstance().getReference().child(roomName);
-        this.mCallbacks =callBacks;
+    private FirebaseManager()
+    {
+        _database = FirebaseDatabase.getInstance();
+        _messageReference = _database.getReference("messages");
     }
 
-    public void addMessageListeners(){
-        mMessageReference.addChildEventListener(this);
+    public void addMessageListeners()
+    {
+        _messageReference.addChildEventListener(this);
     }
 
     public void removeListeners(){
-        mMessageReference.removeEventListener(this);
+
+        _messageReference.removeEventListener(this);
+    }
+
+    public void setCallback(FirebaseCallbacks callback)
+    {
+        _callbacks = callback;
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        mCallbacks.onNewMessage(dataSnapshot);
+        HashMap<String, Object> object = (HashMap<String, Object>) dataSnapshot.getValue();
+        String content = object.get("content").toString();
+        String messageKey = object.get("messageKey").toString();
+        String senderName = object.get("senderName").toString();
+        long timeStamp = Long.parseLong(object.get("timeStamp").toString());
+        _callbacks.onNewMessage(messageKey, timeStamp, content, senderName);
     }
 
     @Override
@@ -67,19 +79,20 @@ public class FirebaseManager implements ChildEventListener {
 
     }
 
-    public void sendMessageToFirebase(String message) {
+    public void sendMessageToFirebase(String message, String senderName) {
         Map<String,Object> map=new HashMap<>();
-        map.put("text",message);
-        map.put("time",System.currentTimeMillis());
-        map.put("senderId", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        String keyToPush = mMessageReference.push().getKey();
-        mMessageReference.child(keyToPush).setValue(map);
+        String key = _messageReference.push().getKey();
+
+        map.put("content",message);
+        map.put("messageKey",key);
+        map.put("senderName",senderName);
+        map.put("timeStamp",System.currentTimeMillis());
+        _messageReference.child(key).setValue(map);
     }
 
     public void destroy() {
-        sFirebaseManager=null;
-        mCallbacks =null;
+        _callbacks =null;
     }
 
 }

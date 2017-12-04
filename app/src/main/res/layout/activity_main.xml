@@ -30,7 +30,8 @@
         android:text="@string/model_view_presenter"
         android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_theme"/>
+        android:background="@drawable/btn_theme"
+        android:onClick="goToMVP"/>
 
     <Button
         android:id="@+id/btn_mvvm"
