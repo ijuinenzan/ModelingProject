@@ -7,5 +7,5 @@ import com.google.firebase.database.DataSnapshot;
  */
 
 public interface FirebaseCallbacks {
-    void onNewMessage(DataSnapshot dataSnapshot);
+    void onNewMessage(String messageKey, long timeStamp, String content, String senderName);
 }
