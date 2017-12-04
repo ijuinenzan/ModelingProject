@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SoftwareArchitecture</string>
     <string name="action_settings">Settings</string>
+    <string name="model_view_controller">Model-View-Controller</string>
+    <string name="model_view_presenter">Model-View-Presenter</string>
+    <string name="model_view_viewmodel">Model-View-ViewModel</string>
 </resources>

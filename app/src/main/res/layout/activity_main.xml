@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context="com.cauvong.softwarearchitecture.MainActivity">
 
-</android.support.design.widget.CoordinatorLayout>
+    <Button
+        android:id="@+id/btn_mvc"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:text="@string/model_view_controller"
+        android:textSize="20sp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_theme"/>
+
+    <Button
+        android:id="@+id/btn_mvp"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/model_view_presenter"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_theme"/>
+
+    <Button
+        android:id="@+id/btn_mvvm"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/model_view_viewmodel"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_theme"/>
+</LinearLayout>
