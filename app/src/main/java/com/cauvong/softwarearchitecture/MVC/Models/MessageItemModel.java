@@ -10,12 +10,12 @@ public class MessageItemModel
     private String _messageKey;
     private String _senderName;
     private String _content;
-    private String _timeStamp;
+    private long _timeStamp;
 
     public MessageItemModel()
     {    }
 
-    public MessageItemModel(String messageKey, String senderName, String content, String timeStamp)
+    public MessageItemModel(String messageKey, String senderName, String content, long timeStamp)
     {
         this._messageKey = messageKey;
         this._senderName = senderName;
@@ -42,15 +42,15 @@ public class MessageItemModel
     public void setContent(String content)
     {   this._content = content;    }
 
-    public String getTimeStamp()
+    public long getTimeStamp()
     {   return _timeStamp;    }
 
-    public void setTimeStamp(String timeStamp)
+    public void setTimeStamp(long timeStamp)
     {   this._timeStamp = timeStamp;   }
     //endregion
 
 
-    public void onChanged(String messageKey, String senderName, String content, String timeStamp)
+    public void onChanged(String messageKey, String senderName, String content, long timeStamp)
     {
         this.setMessageKey(messageKey);
         this.setSenderName(senderName);

@@ -22,5 +22,5 @@ public class ChatViewModel extends BaseObservable
     {
         _messages.addMessage(message);
     }
-    
+
 }

@@ -21,4 +21,10 @@ public class MainActivity extends AppCompatActivity {
         Intent mvpIntent = new Intent(MainActivity.this, com.cauvong.softwarearchitecture.MVP.Views.ChatView.class);
         startActivity(mvpIntent);
     }
+
+    public void goToMVC(View view) {
+        Intent mvpIntent = new Intent(MainActivity.this, com.cauvong.softwarearchitecture.MVC.Views.ChatActivity.class);
+        startActivity(mvpIntent);
+    }
+
 }

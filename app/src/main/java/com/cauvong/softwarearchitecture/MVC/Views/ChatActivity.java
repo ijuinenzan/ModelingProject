@@ -2,6 +2,8 @@ package com.cauvong.softwarearchitecture.MVC.Views;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ public class ChatActivity extends AppCompatActivity
     private EditText _edtContent;
     private EditText _edtSenderName;
     private MessagesController _controller;
+    private RecyclerView _recyclerView;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -37,12 +40,15 @@ public class ChatActivity extends AppCompatActivity
 
         _controller = new MessagesController();
         _controller.setOnMessageChangeListener(ChatActivity.this);
+
+        _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void onSend(View v)
+    public void onSend(View v)
     {
         _controller.onClicked(_edtContent.getText().toString(), _edtSenderName.getText().toString());
-
+        clearText();
     }
 
 
@@ -50,7 +56,20 @@ public class ChatActivity extends AppCompatActivity
     @Override
     public void onMessageChange(ArrayList<MessageItemModel> messages)
     {
-        // TODO: what happen when data is changed
+        ChatAdapter chatAdapter = new ChatAdapter(this,messages);
+        _recyclerView.setAdapter(chatAdapter);
+        _recyclerView.scrollToPosition(messages.size()-1);
+    }
+
+
+    public void clearText(){
+        _edtContent.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        _controller.destroy();
     }
 
 }
