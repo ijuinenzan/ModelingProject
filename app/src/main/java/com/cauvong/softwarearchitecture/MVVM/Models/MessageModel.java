@@ -21,4 +21,9 @@ public class MessageModel {
 
         _messages.add(messageItemModel);
     }
+
+    public ArrayList<MessageItemModel> getArrListMessage()
+    {
+        return _messages;
+    }
 }

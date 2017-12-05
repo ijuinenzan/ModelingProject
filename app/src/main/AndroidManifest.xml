@@ -19,11 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".MVP.Views.ChatView"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/chatTheme"/>
 
+
         <activity android:name=".MVC.Views.ChatActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/chatTheme"/>
+
+
+        <activity android:name=".MVVM.Views.ChatActivity"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/chatTheme"/>
     </application>
