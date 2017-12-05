@@ -23,8 +23,6 @@ public class ChatActivity extends AppCompatActivity {
     //region DECLARE VARIABLE
     private MvvmChatActivityBinding _binding;
     private ChatViewModel _viewModel;
-    private EditText _edtContent;
-    private EditText _edtSenderName;
     private RecyclerView _recyclerView;
     //endregion
 
@@ -35,26 +33,12 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.mvvm_chat_activity);
 
         _binding = DataBindingUtil.setContentView(this,R.layout.mvvm_chat_activity);
-        _viewModel = new ChatViewModel();
+        _viewModel = new ChatViewModel(this);
         _binding.setViewModel(_viewModel);
         _binding.setActivity(this);
 
-        _edtContent = (EditText) findViewById(R.id.edittext_chat_message);
-        _edtSenderName = (EditText) findViewById(R.id.edt_sender_name);
-
         _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    public void sendMessage()
-    {
-        _viewModel.sendMessage(_edtContent.getText().toString(),_edtSenderName.getText().toString());
-        clearText();
-    }
-
-    public void clearText()
-    {
-        _edtContent.setText("");
     }
 
     @Override
@@ -63,10 +47,13 @@ public class ChatActivity extends AppCompatActivity {
         _viewModel.destroy();
     }
 
+
     public void onMessageChange(ArrayList<MessageItemModel> messages)
     {
         ChatAdapter chatAdapter = new ChatAdapter(this,messages);
         _recyclerView.setAdapter(chatAdapter);
         _recyclerView.scrollToPosition(messages.size()-1);
     }
+
+
 }

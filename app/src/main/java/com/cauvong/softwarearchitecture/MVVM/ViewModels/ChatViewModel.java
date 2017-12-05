@@ -1,12 +1,17 @@
 package com.cauvong.softwarearchitecture.MVVM.ViewModels;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.view.View;
 
+import com.cauvong.softwarearchitecture.BR;
 import com.cauvong.softwarearchitecture.MVVM.Models.MessageItemModel;
 import com.cauvong.softwarearchitecture.MVVM.Models.MessageModel;
 import com.cauvong.softwarearchitecture.MVVM.Views.ChatActivity;
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
 import com.cauvong.softwarearchitecture.managers.FirebaseManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by Khang Le on 12/4/2017.
@@ -15,19 +20,46 @@ import com.cauvong.softwarearchitecture.managers.FirebaseManager;
 public class ChatViewModel extends BaseObservable implements FirebaseCallbacks
 {
     private MessageModel _messages;
+    private String _senderName = "";
+    private String _content ="";
     private ChatActivity _view;
 
-    public ChatViewModel()
+    public ChatViewModel(ChatActivity view)
     {
+        _view = view;
         _messages = new MessageModel();
         FirebaseManager.getInstance().setCallback(this);
         FirebaseManager.getInstance().addMessageListeners();
     }
 
-    public void sendMessage(String content, String senderName)
+    @Bindable
+    public String getSenderName()
+    {
+        return _senderName;
+    }
+
+    public void setSenderName(String senderName)
+    {
+        _senderName = senderName;
+        notifyPropertyChanged(BR.senderName);
+    }
+
+    @Bindable
+    public String getContent()
+    {
+        return _content;
+    }
+
+    public void setContent(String content)
+    {
+        _content = content;
+        notifyPropertyChanged(BR.content);
+    }
+
+    public void sendMessage()
     {
         //gui len firebase
-        FirebaseManager.getInstance().sendMessageToFirebase(content, senderName);
+        FirebaseManager.getInstance().sendMessageToFirebase(_content, _senderName);
     }
 
     public void onMessageReceived(MessageItemModel message)
@@ -35,6 +67,8 @@ public class ChatViewModel extends BaseObservable implements FirebaseCallbacks
         _messages.addMessage(message);
 
         //binding len View
+        _view.onMessageChange(_messages.getArrListMessage());
+        setContent("");
     }
 
     @Override
@@ -53,5 +87,6 @@ public class ChatViewModel extends BaseObservable implements FirebaseCallbacks
         FirebaseManager.getInstance().removeListeners();
         FirebaseManager.getInstance().destroy();
     }
+
 
 }
