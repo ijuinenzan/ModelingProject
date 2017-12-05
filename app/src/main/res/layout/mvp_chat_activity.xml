@@ -10,7 +10,7 @@
         android:id="@+id/text_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/standard_small"
-        android:text="@string/chats_heading"
+        android:text="@string/MVP"
         style="@style/activity_headers"/>
 
     <RelativeLayout

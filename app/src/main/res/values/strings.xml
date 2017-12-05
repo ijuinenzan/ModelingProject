@@ -19,4 +19,8 @@
     <string name="text_waiting_for_auth">Authenticating, this may take 1 minute</string>
     <string name="sender_s_name">Sender\'s Name</string>
 
+    <string name="MVC">Model-View-Controller</string>
+    <string name="MVP">Model-View-Presenter</string>
+    <string name="MVVM">Model-View-ViewModel</string>
+
 </resources>

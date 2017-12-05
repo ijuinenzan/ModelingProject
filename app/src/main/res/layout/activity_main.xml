@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.cauvong.softwarearchitecture.MainActivity">
+    tools:context="com.cauvong.softwarearchitecture.MainActivity"
+    android:background="#33000000">
 
     <Button
         android:id="@+id/btn_mvc"
@@ -16,7 +17,7 @@
         android:text="@string/model_view_controller"
         android:textSize="20sp"
         android:backgroundTint="@color/colorPrimary"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_theme"
@@ -30,6 +31,7 @@
         android:textStyle="bold"
         android:text="@string/model_view_presenter"
         android:backgroundTint="@color/colorPrimary"
+        android:textColor="#ffffff"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_theme"
         android:onClick="goToMVP"/>
@@ -41,6 +43,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:backgroundTint="@color/colorPrimary"
+        android:textColor="#ffffff"
         android:text="@string/model_view_viewmodel"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_theme"
