@@ -8,13 +8,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView _txtUserName;
+    private FirebaseAuth _auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        _auth = FirebaseAuth.getInstance();
+        FirebaseUser user = _auth.getCurrentUser();
+
+        _txtUserName = findViewById(R.id.txt_username);
+
+        try {
+            if(user.isAnonymous())
+                _txtUserName.setText("Anonymous");
+            _txtUserName.setText(user.getUid());
+        }
+        catch(NullPointerException e)
+        {
+            _txtUserName.setText("");
+        }
     }
 
     public void goToMVP(View view) {

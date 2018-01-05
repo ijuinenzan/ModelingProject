@@ -17,11 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edt_sender_name"
+        <TextView
+            android:id="@+id/txt_sender_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sender_s_name"/>
+            android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

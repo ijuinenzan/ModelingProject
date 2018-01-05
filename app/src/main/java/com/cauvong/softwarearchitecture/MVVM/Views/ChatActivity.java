@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cauvong.softwarearchitecture.MVVM.Models.MessageItemModel;
 import com.cauvong.softwarearchitecture.MVVM.ViewModels.ChatViewModel;
 import com.cauvong.softwarearchitecture.databinding.MvvmChatActivityBinding;
 import com.cauvong.softwarearchitecture.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class ChatActivity extends AppCompatActivity {
     private MvvmChatActivityBinding _binding;
     private ChatViewModel _viewModel;
     private RecyclerView _recyclerView;
+    private TextView _txtUserId;
     //endregion
 
     @Override
@@ -39,6 +42,9 @@ public class ChatActivity extends AppCompatActivity {
 
         _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        _txtUserId = findViewById(R.id.txt_sender_name);
+        FirebaseAuth
     }
 
     @Override
