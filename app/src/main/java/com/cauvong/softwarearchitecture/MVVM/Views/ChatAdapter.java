@@ -1,6 +1,8 @@
 package com.cauvong.softwarearchitecture.MVVM.Views;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cauvong.softwarearchitecture.BR;
 import com.cauvong.softwarearchitecture.MVVM.Models.MessageItemModel;
 import com.cauvong.softwarearchitecture.R;
 import com.cauvong.softwarearchitecture.utils.MyUtils;
@@ -18,41 +21,29 @@ import java.util.ArrayList;
  * Created by Khang Le on 12/5/2017.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.FollowerViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.BindingHolder> {
     private ArrayList<MessageItemModel> _chatList;
-    private Context context;
 
-    ChatAdapter(Context context, ArrayList<MessageItemModel> chatList) {
-        this._chatList =chatList;
-        this.context=context;
+    public ChatAdapter()
+    {
+        this._chatList = new ArrayList<>();
+    }
+    @Override
+    public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(
+                layoutInflater, viewType, parent, false);
+        return new BindingHolder(binding);
     }
 
     @Override
-    public FollowerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View itemView = LayoutInflater.from(context).inflate(R.layout.mvp_chat_row_adapter, parent, false);
-        return new FollowerViewHolder(itemView);
+    public void onBindViewHolder(final BindingHolder holder, final int position) {
+        holder.bind(_chatList.get(position));
     }
 
     @Override
-    public void onBindViewHolder(final FollowerViewHolder holder, final int position) {
-
-        if (_chatList.get(position).getSenderName().equals("Khang")) {
-
-            holder.layoutLeftMessages.setVisibility(View.GONE);
-            holder.layoutRightMessages.setVisibility(View.VISIBLE);
-
-            holder.messagesTextRight.setText(_chatList.get(position).getContent());
-            holder.timeMessagesRight.setText(MyUtils.convertTime(_chatList.get(position).getTimeStamp()));
-
-        } else {
-
-            holder.layoutLeftMessages.setVisibility(View.VISIBLE);
-            holder.layoutRightMessages.setVisibility(View.GONE);
-
-            holder.messagesTextLeft.setText(_chatList.get(position).getContent());
-            holder.timeMessagesLeft.setText(MyUtils.convertTime(_chatList.get(position).getTimeStamp()));
-        }
+    public int getItemViewType(int position) {
+        return R.layout.mvvm_chat_row_adapter;
     }
 
     @Override
@@ -60,22 +51,25 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.FollowerViewHo
         return _chatList.size();
     }
 
+    public void setChatList(final ArrayList<MessageItemModel> chatList){
+        _chatList.clear();
+        _chatList.addAll(chatList);
+        notifyDataSetChanged();
+    }
 
-    class FollowerViewHolder extends RecyclerView.ViewHolder {
+    class BindingHolder extends RecyclerView.ViewHolder {
+        private final ViewDataBinding _binding;
 
-        private TextView messagesTextLeft, timeMessagesLeft, messagesTextRight,timeMessagesRight;
-        private LinearLayout layoutLeftMessages, layoutRightMessages;
+        BindingHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
+            _binding = binding;
+        }
 
-        FollowerViewHolder(View convertView) {
-            super(convertView);
-
-            messagesTextLeft = (TextView) convertView.findViewById(R.id.text_message_left);
-            timeMessagesLeft =(TextView) convertView.findViewById(R.id.text_time_messages_left);
-            messagesTextRight =(TextView) convertView.findViewById(R.id.text_message_right);
-            timeMessagesRight=(TextView) convertView.findViewById(R.id.text_time_message_right);
-
-            layoutLeftMessages =(LinearLayout) convertView.findViewById(R.id.layout_message_left);
-            layoutRightMessages =(LinearLayout) convertView.findViewById(R.id.layout_message_right);
+        public void bind(MessageItemModel message)
+        {
+            _binding.setVariable(BR.chatMessage, message);
+            _binding.executePendingBindings();
         }
     }
+
 }

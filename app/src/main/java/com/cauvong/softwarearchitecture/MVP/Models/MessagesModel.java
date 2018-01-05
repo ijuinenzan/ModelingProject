@@ -1,13 +1,13 @@
-package com.cauvong.softwarearchitecture.MVC.Models;
+package com.cauvong.softwarearchitecture.MVP.Models;
 
-import com.cauvong.softwarearchitecture.MVC.Interfaces.IMessageListener;
+import com.cauvong.softwarearchitecture.MVP.Interfaces.IMessageListener;
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
 import com.cauvong.softwarearchitecture.managers.FirebaseManager;
 
 import java.util.ArrayList;
 
 /**
- * Created by Khang Le on 12/4/2017.
+ * Created by ijuin on 12/4/2017.
  */
 
 public class MessagesModel implements FirebaseCallbacks<MessageItemModel>

@@ -2,12 +2,11 @@ package com.cauvong.softwarearchitecture.MVVM.ViewModels;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.view.View;
 
 import com.cauvong.softwarearchitecture.BR;
+import com.cauvong.softwarearchitecture.MVVM.Factories.MessageFactory;
 import com.cauvong.softwarearchitecture.MVVM.Models.MessageItemModel;
-import com.cauvong.softwarearchitecture.MVVM.Models.MessageModel;
-import com.cauvong.softwarearchitecture.MVVM.Views.ChatActivity;
+import com.cauvong.softwarearchitecture.MVVM.Models.MessagesModel;
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
 import com.cauvong.softwarearchitecture.managers.FirebaseManager;
 
@@ -17,31 +16,20 @@ import java.util.ArrayList;
  * Created by Khang Le on 12/4/2017.
  */
 
-public class ChatViewModel extends BaseObservable implements FirebaseCallbacks
+public class ChatViewModel extends BaseObservable
 {
-    private MessageModel _messages;
-    private String _senderName = "";
+    private MessagesModel _messages;
     private String _content ="";
-    private ChatActivity _view;
 
-    public ChatViewModel(ChatActivity view)
+    public ChatViewModel()
     {
-        _view = view;
-        _messages = new MessageModel();
-        FirebaseManager.getInstance().setCallback(this);
-        FirebaseManager.getInstance().addMessageListeners();
+        _messages = new MessagesModel();
     }
 
     @Bindable
-    public String getSenderName()
+    public MessagesModel getMessageModel()
     {
-        return _senderName;
-    }
-
-    public void setSenderName(String senderName)
-    {
-        _senderName = senderName;
-        notifyPropertyChanged(BR.senderName);
+        return _messages;
     }
 
     @Bindable
@@ -58,35 +46,17 @@ public class ChatViewModel extends BaseObservable implements FirebaseCallbacks
 
     public void sendMessage()
     {
-        //gui len firebase
-        FirebaseManager.getInstance().sendMessageToFirebase(_content, _senderName);
-    }
-
-    public void onMessageReceived(MessageItemModel message)
-    {
-        _messages.addMessage(message);
-
-        //binding len View
-        _view.onMessageChange(_messages.getArrListMessage());
+        if(_content.equals(""))
+        {
+            return;
+        }
+        MessageItemModel message = MessageFactory.createMessage(_content);
+        FirebaseManager.getInstance().sendMessageToFirebase(message, message.getMessageKey());
         setContent("");
     }
 
-    @Override
-    public void onNewMessage(String messageKey, long timeStamp, String content, String senderName)
+    public void destroy()
     {
-        MessageItemModel message = new MessageItemModel();
-        message.setMessageKey(messageKey);
-        message.setTimeStamp(timeStamp);
-        message.setContent(content);
-        message.setSenderName(senderName);
-
-        onMessageReceived(message);
+        _messages.destroy();
     }
-
-    public void destroy(){
-        FirebaseManager.getInstance().removeListeners();
-        FirebaseManager.getInstance().destroy();
-    }
-
-
 }

@@ -20,13 +20,11 @@ import java.util.ArrayList;
  * Created by Khang Le on 12/4/2017.
  */
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatView extends AppCompatActivity {
 
     //region DECLARE VARIABLE
     private MvvmChatActivityBinding _binding;
     private ChatViewModel _viewModel;
-    private RecyclerView _recyclerView;
-    private TextView _txtUserId;
     //endregion
 
     @Override
@@ -36,15 +34,11 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.mvvm_chat_activity);
 
         _binding = DataBindingUtil.setContentView(this,R.layout.mvvm_chat_activity);
-        _viewModel = new ChatViewModel(this);
+        _viewModel = new ChatViewModel();
         _binding.setViewModel(_viewModel);
+        _binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _binding.recyclerView.setAdapter(new ChatAdapter());
         _binding.setActivity(this);
-
-        _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        _txtUserId = findViewById(R.id.txt_sender_name);
-        FirebaseAuth
     }
 
     @Override
@@ -52,14 +46,4 @@ public class ChatActivity extends AppCompatActivity {
         super.onDestroy();
         _viewModel.destroy();
     }
-
-
-    public void onMessageChange(ArrayList<MessageItemModel> messages)
-    {
-        ChatAdapter chatAdapter = new ChatAdapter(this,messages);
-        _recyclerView.setAdapter(chatAdapter);
-        _recyclerView.scrollToPosition(messages.size()-1);
-    }
-
-
 }

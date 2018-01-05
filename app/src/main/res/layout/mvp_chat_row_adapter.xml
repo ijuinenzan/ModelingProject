@@ -22,20 +22,6 @@
             android:orientation="vertical"
             android:background="@drawable/left_node_bg">
 
-            <!--<TextView-->
-            <!--android:id="@+id/textview_name_messages_left"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:maxWidth="220dp"-->
-            <!--android:minWidth="70dp"-->
-            <!--android:text="Name"-->
-            <!--android:textSize="11sp"-->
-            <!--android:layout_marginTop="2dp"-->
-            <!--android:textColor="#0f9595"-->
-            <!--android:textStyle="bold" />-->
-
             <TextView
                 android:id="@+id/text_message_left"
                 android:layout_width="wrap_content"

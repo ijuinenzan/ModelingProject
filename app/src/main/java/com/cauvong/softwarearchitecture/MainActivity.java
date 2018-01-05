@@ -2,14 +2,11 @@ package com.cauvong.softwarearchitecture;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.cauvong.softwarearchitecture.MVC.Views.ChatView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToMVC(View view) {
-        Intent mvpIntent = new Intent(MainActivity.this, com.cauvong.softwarearchitecture.MVC.Views.ChatActivity.class);
+        Intent mvpIntent = new Intent(MainActivity.this, ChatView.class);
         startActivity(mvpIntent);
     }
 
 
     public void goToMVVM(View view) {
-        Intent mvpIntent = new Intent(MainActivity.this, com.cauvong.softwarearchitecture.MVVM.Views.ChatActivity.class);
+        Intent mvpIntent = new Intent(MainActivity.this, com.cauvong.softwarearchitecture.MVVM.Views.ChatView.class);
         startActivity(mvpIntent);
     }
 }

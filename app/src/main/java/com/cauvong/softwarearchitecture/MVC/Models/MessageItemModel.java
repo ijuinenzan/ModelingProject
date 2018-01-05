@@ -6,7 +6,7 @@ package com.cauvong.softwarearchitecture.MVC.Models;
 
 public class MessageItemModel
 {
-
+    private String _senderId;
     private String _messageKey;
     private String _senderName;
     private String _content;
@@ -15,8 +15,9 @@ public class MessageItemModel
     public MessageItemModel()
     {    }
 
-    public MessageItemModel(String messageKey, String senderName, String content, long timeStamp)
+    public MessageItemModel(String senderId, String messageKey, String senderName, String content, long timeStamp)
     {
+        this._senderId = senderId;
         this._messageKey = messageKey;
         this._senderName = senderName;
         this._content = content;
@@ -24,6 +25,16 @@ public class MessageItemModel
     }
 
     //region GET-SET
+    public String getSenderId()
+    {
+        return _senderId;
+    }
+
+    public void setSenderId(String senderId)
+    {
+        _senderId = senderId;
+    }
+
     public String getMessageKey()
     {   return _messageKey;    }
 
@@ -48,15 +59,4 @@ public class MessageItemModel
     public void setTimeStamp(long timeStamp)
     {   this._timeStamp = timeStamp;   }
     //endregion
-
-
-    public void onChanged(String messageKey, String senderName, String content, long timeStamp)
-    {
-        this.setMessageKey(messageKey);
-        this.setSenderName(senderName);
-        this.setContent(content);
-        this.setTimeStamp(timeStamp);
-    }
-
-
 }

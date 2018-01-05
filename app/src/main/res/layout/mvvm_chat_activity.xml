@@ -6,7 +6,7 @@
 
     <data>
         <variable name="viewModel" type="com.cauvong.softwarearchitecture.MVVM.ViewModels.ChatViewModel"/>
-        <variable name="activity" type="com.cauvong.softwarearchitecture.MVVM.Views.ChatActivity"/>
+        <variable name="activity" type="com.cauvong.softwarearchitecture.MVVM.Views.ChatView"/>
         <import type="android.view.View"/>
     </data>
 
@@ -26,19 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edt_sender_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sender_s_name"
-            android:text="@={viewModel.senderName}"/>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/layout_input"
-            android:layout_below="@id/edt_sender_name">
+            app:messages="@{viewModel.messageModel.messages}">
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout

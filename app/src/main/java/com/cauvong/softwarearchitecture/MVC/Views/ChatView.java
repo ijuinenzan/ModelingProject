@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.cauvong.softwarearchitecture.MVC.Controllers.MessagesController;
@@ -19,14 +18,13 @@ import java.util.ArrayList;
  * Created by Khang Le on 12/4/2017.
  */
 
-public class ChatActivity extends AppCompatActivity
+public class ChatView extends AppCompatActivity
         implements IMessageListener
 {
-    private Button _btnSend;
     private EditText _edtContent;
-    private EditText _edtSenderName;
     private MessagesController _controller;
     private RecyclerView _recyclerView;
+    private ChatAdapter _adapter;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -34,30 +32,27 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(bundle);
         setContentView(R.layout.mvc_chat_activity);
 
-        _edtSenderName = (EditText) findViewById(R.id.edt_sender_name);
-        _edtContent = (EditText) findViewById(R.id.edittext_chat_message);
-        _btnSend = (Button) findViewById(R.id.button_send_message);
+        _edtContent = findViewById(R.id.edittext_chat_message);
+
+        _recyclerView = findViewById(R.id.recycler_view);
+        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _adapter = new ChatAdapter(this);
+        _recyclerView.setAdapter(_adapter);
 
         _controller = new MessagesController();
-        _controller.setOnMessageChangeListener(ChatActivity.this);
-
-        _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _controller.setOnMessageChangeListener(ChatView.this);
     }
 
     public void onSend(View v)
     {
-        _controller.onClicked(_edtContent.getText().toString(), _edtSenderName.getText().toString());
+        _controller.sendMessage(_edtContent.getText().toString());
         clearText();
     }
-
-
 
     @Override
     public void onMessageChange(ArrayList<MessageItemModel> messages)
     {
-        ChatAdapter chatAdapter = new ChatAdapter(this,messages);
-        _recyclerView.setAdapter(chatAdapter);
+        _adapter.setMessages(messages);
         _recyclerView.scrollToPosition(messages.size()-1);
     }
 
@@ -67,7 +62,8 @@ public class ChatActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         _controller.destroy();
     }

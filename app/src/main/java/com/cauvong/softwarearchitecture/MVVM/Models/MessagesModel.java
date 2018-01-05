@@ -1,6 +1,7 @@
-package com.cauvong.softwarearchitecture.MVC.Models;
+package com.cauvong.softwarearchitecture.MVVM.Models;
 
-import com.cauvong.softwarearchitecture.MVC.Interfaces.IMessageListener;
+import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
 import com.cauvong.softwarearchitecture.managers.FirebaseManager;
 
@@ -12,22 +13,16 @@ import java.util.ArrayList;
 
 public class MessagesModel implements FirebaseCallbacks<MessageItemModel>
 {
-    private ArrayList<MessageItemModel> _messages;
-    private IMessageListener _onMessageChange;
+    private ObservableArrayList<MessageItemModel> _messages;
 
     public void addMessage(MessageItemModel messageItemModel)
     {
         _messages.add(messageItemModel);
-
-        if(_onMessageChange != null)
-        {
-            _onMessageChange.onMessageChange(_messages);
-        }
     }
 
-    public void setOnMessageChangeListener(IMessageListener listener)
+    public ObservableArrayList<MessageItemModel> getMessages()
     {
-        this._onMessageChange = listener;
+        return _messages;
     }
 
     @Override
@@ -43,7 +38,7 @@ public class MessagesModel implements FirebaseCallbacks<MessageItemModel>
 
     public MessagesModel()
     {
-        _messages = new ArrayList<>();
+        _messages = new ObservableArrayList<>();
         FirebaseManager.getInstance().setCallback(this);
         FirebaseManager.getInstance().addMessageListeners();
     }

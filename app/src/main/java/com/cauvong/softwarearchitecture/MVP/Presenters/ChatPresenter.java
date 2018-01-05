@@ -1,48 +1,46 @@
 package com.cauvong.softwarearchitecture.MVP.Presenters;
 
+import com.cauvong.softwarearchitecture.MVP.Factories.MessageFactory;
+import com.cauvong.softwarearchitecture.MVP.Interfaces.IMessageListener;
 import com.cauvong.softwarearchitecture.MVP.Models.MessageItemModel;
-import com.cauvong.softwarearchitecture.MVP.Models.MessageModel;
+import com.cauvong.softwarearchitecture.MVP.Models.MessagesModel;
 import com.cauvong.softwarearchitecture.MVP.Views.ChatView;
 import com.cauvong.softwarearchitecture.interfaces.FirebaseCallbacks;
 import com.cauvong.softwarearchitecture.managers.FirebaseManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by ijuin on 12/4/2017.
  */
 
-public class ChatPresenter implements IPresenter<ChatView>, FirebaseCallbacks {
+public class ChatPresenter implements IMessageListener {
     private ChatView _view;
-    private MessageModel _messageModel;
+    private MessagesModel _messages;
 
-    @Override
     public void setView(ChatView view) {
         _view = view;
-        _messageModel = new MessageModel();
-
-        FirebaseManager.getInstance().setCallback(this);
-        FirebaseManager.getInstance().addMessageListeners();
+        _messages = new MessagesModel();
+        _messages.setOnMessageChangeListener(this);
     }
 
-    public void sendMessage(String message, String sender){
+    public void sendMessage(String content)
+    {
+        if(content.equals(""))
+        {
+            return;
+        }
+        MessageItemModel message = MessageFactory.createMessage(content);
+        FirebaseManager.getInstance().sendMessageToFirebase(message, message.getMessageKey());
         _view.clearText();
-
-        FirebaseManager.getInstance().sendMessageToFirebase(message, sender);
-    }
-
-    @Override
-    public void onNewMessage(String messageKey, long timeStamp, String content, String senderName) {
-        MessageItemModel message = new MessageItemModel();
-        message.setMessageKey(messageKey);
-        message.setTimeStamp(timeStamp);
-        message.setContent(content);
-        message.setSenderName(senderName);
-        _messageModel.addMessage(message);
-
-        _view.updateMessageList(_messageModel.getMessages());
     }
 
     public void destroy(){
-        FirebaseManager.getInstance().removeListeners();
-        FirebaseManager.getInstance().destroy();
+        _messages.destroy();
+    }
+
+    @Override
+    public void onMessageChange(ArrayList<MessageItemModel> messages) {
+        _view.updateMessageList(messages);
     }
 }

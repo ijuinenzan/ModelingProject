@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class FirebaseManager implements ChildEventListener {
     private static FirebaseManager _firebaseManager;
-    private FirebaseDatabase _database;
     private DatabaseReference _messageReference;
     private FirebaseCallbacks _callbacks;
 
@@ -30,7 +29,7 @@ public class FirebaseManager implements ChildEventListener {
 
     private FirebaseManager()
     {
-        _database = FirebaseDatabase.getInstance();
+        FirebaseDatabase _database = FirebaseDatabase.getInstance();
         _messageReference = _database.getReference("messages");
     }
 
@@ -39,8 +38,8 @@ public class FirebaseManager implements ChildEventListener {
         _messageReference.addChildEventListener(this);
     }
 
-    public void removeListeners(){
-
+    public void removeListeners()
+    {
         _messageReference.removeEventListener(this);
     }
 
@@ -50,13 +49,9 @@ public class FirebaseManager implements ChildEventListener {
     }
 
     @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        HashMap<String, Object> object = (HashMap<String, Object>) dataSnapshot.getValue();
-        String content = object.get("content").toString();
-        String messageKey = object.get("messageKey").toString();
-        String senderName = object.get("senderName").toString();
-        long timeStamp = Long.parseLong(object.get("timeStamp").toString());
-        _callbacks.onNewMessage(messageKey, timeStamp, content, senderName);
+    public void onChildAdded(DataSnapshot dataSnapshot, String s)
+    {
+        _callbacks.onNewMessage(dataSnapshot.getValue(_callbacks.getType()));
     }
 
     @Override
@@ -79,16 +74,14 @@ public class FirebaseManager implements ChildEventListener {
 
     }
 
-    public void sendMessageToFirebase(String message, String senderName) {
-        Map<String,Object> map=new HashMap<>();
+    public String getNewKey()
+    {
+        return _messageReference.push().getKey();
+    }
 
-        String key = _messageReference.push().getKey();
-
-        map.put("content",message);
-        map.put("messageKey",key);
-        map.put("senderName",senderName);
-        map.put("timeStamp",System.currentTimeMillis());
-        _messageReference.child(key).setValue(map);
+    public void sendMessageToFirebase(Object message, String key)
+    {
+        _messageReference.child(key).setValue(message);
     }
 
     public void destroy() {

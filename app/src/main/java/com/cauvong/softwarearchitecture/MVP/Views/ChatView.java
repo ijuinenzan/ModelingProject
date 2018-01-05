@@ -22,36 +22,35 @@ public class ChatView extends AppCompatActivity {
     private ChatPresenter _chatPresenter;
 
     private EditText _chatText;
-    private EditText _nameText;
 
     private RecyclerView _recyclerView;
+    private ChatAdapter _adapter;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mvp_chat_activity);
 
+        _chatText = findViewById(R.id.edittext_chat_message);
+
+        _recyclerView = findViewById(R.id.recycler_view);
+        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _adapter = new ChatAdapter(this);
+        _recyclerView.setAdapter(_adapter);
+
         _chatPresenter = new ChatPresenter();
         _chatPresenter.setView(this);
-
-        _chatText = findViewById(R.id.edittext_chat_message);
-        _nameText = findViewById(R.id.edt_sender_name);
-
-        _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void updateMessageList(ArrayList<MessageItemModel> messages) {
-        ChatAdapter chatAdapter = new ChatAdapter(this, messages);
-        _recyclerView.setAdapter(chatAdapter);
+    public void updateMessageList(ArrayList<MessageItemModel> messages)
+    {
+        _adapter.setMessages(messages);
         _recyclerView.scrollToPosition(messages.size()-1);
     }
 
     public void onSendMessage(View v)
     {
-        if(v.getId() == R.id.button_send_message){
-            _chatPresenter.sendMessage(_chatText.getText().toString(), _nameText.getText().toString());
-        }
+        _chatPresenter.sendMessage(_chatText.getText().toString());
     }
 
     public void clearText(){

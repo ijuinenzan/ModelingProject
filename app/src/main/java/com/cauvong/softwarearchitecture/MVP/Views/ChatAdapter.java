@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cauvong.softwarearchitecture.MVP.Models.MessageItemModel;
 import com.cauvong.softwarearchitecture.R;
 import com.cauvong.softwarearchitecture.utils.MyUtils;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -18,27 +19,27 @@ import java.util.ArrayList;
  * Created by ijuin on 12/4/2017.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.FollowerViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.BindingHolder> {
     private ArrayList<MessageItemModel> _chatList;
     private Context context;
 
-    ChatAdapter(Context context, ArrayList<MessageItemModel> chatList) {
-        this._chatList =chatList;
+    ChatAdapter(Context context) {
+        this._chatList = new ArrayList<>();
         this.context=context;
     }
 
     @Override
-    public FollowerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(context).inflate(R.layout.mvp_chat_row_adapter, parent, false);
-        return new FollowerViewHolder(itemView);
+        return new BindingHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final FollowerViewHolder holder, final int position) {
+    public void onBindViewHolder(final BindingHolder holder, final int position) {
 
-        if (_chatList.get(position).getSenderName().equals("Khanh")) {
-
+        if (_chatList.get(position).getSenderId().equals(FirebaseAuth.getInstance().getUid()))
+        {
             holder.layoutLeftMessages.setVisibility(View.GONE);
             holder.layoutRightMessages.setVisibility(View.VISIBLE);
 
@@ -60,13 +61,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.FollowerViewHo
         return _chatList.size();
     }
 
+    public void setMessages(ArrayList<MessageItemModel> messages)
+    {
+        _chatList.clear();
+        _chatList.addAll(messages);
+        notifyDataSetChanged();
+    }
 
-    class FollowerViewHolder extends RecyclerView.ViewHolder {
+
+    class BindingHolder extends RecyclerView.ViewHolder {
 
         private TextView messagesTextLeft, timeMessagesLeft, messagesTextRight,timeMessagesRight;
         private LinearLayout layoutLeftMessages, layoutRightMessages;
 
-        FollowerViewHolder(View convertView) {
+        BindingHolder(View convertView) {
             super(convertView);
 
             messagesTextLeft = (TextView) convertView.findViewById(R.id.text_message_left);

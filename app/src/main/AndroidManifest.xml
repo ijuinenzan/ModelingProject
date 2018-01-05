@@ -23,12 +23,12 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".MVC.Views.ChatActivity"
+            android:name=".MVC.Views.ChatView"
             android:theme="@style/chatTheme"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".MVVM.Views.ChatActivity"
+            android:name=".MVVM.Views.ChatView"
             android:theme="@style/chatTheme"
             android:windowSoftInputMode="adjustResize" />
 
